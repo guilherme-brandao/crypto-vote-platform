@@ -109,3 +109,64 @@ func TestGetCrypto(t *testing.T) {
 	assert.Equal(t, resp.Crypto.Score, cryptoMock.score)
 
 }
+
+
+func TestUpvoteCrypto(t *testing.T) {
+    ctx := context.Background()
+    conn, err := grpc.DialContext(ctx, "bufnet", grpc.WithContextDialer(bufDialer), grpc.WithInsecure())
+    if err != nil {
+        t.Fatalf("Failed to dial bufnet: %v", err)
+    }
+    defer conn.Close()
+	client := votingpb.NewVotingServiceClient(conn)
+
+	req := votingpb.UpvoteCryptoReq{Id: "60563d8dc1a34ac198f71136"}
+    resp, err := client.UpvoteCrypto(ctx, &req)
+    if err != nil {
+        t.Fatalf("UpvoteCrypto failed: %v", err)
+    }
+	log.Printf("Response: %+v", resp)
+
+	assert.Equal(t, resp.Success, true)
+}
+
+func TestDownvoteCrypto(t *testing.T) {
+    ctx := context.Background()
+    conn, err := grpc.DialContext(ctx, "bufnet", grpc.WithContextDialer(bufDialer), grpc.WithInsecure())
+    if err != nil {
+        t.Fatalf("Failed to dial bufnet: %v", err)
+    }
+    defer conn.Close()
+	client := votingpb.NewVotingServiceClient(conn)
+
+	req := votingpb.DownvoteCryptoReq{Id: "60563d8dc1a34ac198f71136"}
+    resp, err := client.DownvoteCrypto(ctx, &req)
+    if err != nil {
+        t.Fatalf("DownvoteCrypto failed: %v", err)
+    }
+	log.Printf("Response: %+v", resp)
+
+	assert.Equal(t, resp.Success, true)
+}
+
+func TestDeleteCrypto(t *testing.T) {
+    ctx := context.Background()
+    conn, err := grpc.DialContext(ctx, "bufnet", grpc.WithContextDialer(bufDialer), grpc.WithInsecure())
+    if err != nil {
+        t.Fatalf("Failed to dial bufnet: %v", err)
+    }
+    defer conn.Close()
+	client := votingpb.NewVotingServiceClient(conn)
+
+	req := votingpb.DeleteCryptoReq{Id: "60563db659b0bb80cc9912b4"}
+    resp, err := client.DeleteCrypto(ctx, &req)
+    if err != nil {
+        t.Fatalf("DeleteCrypto failed: %v", err)
+    }
+	log.Printf("Response: %+v", resp)
+
+	assert.Equal(t, resp.Success, true)
+}
+
+
+
