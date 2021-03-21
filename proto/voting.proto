@@ -1,0 +1,64 @@
+syntax = "proto3";
+package voting;
+option go_package = "votingpb";
+
+service VotingService {
+    rpc CreateCrypto(Crypto) returns (CreateCryptoRes);
+    rpc GetCrypto(GetCryptoReq) returns (GetCryptoRes);
+    rpc UpvoteCrypto(UpvoteCryptoReq) returns (UpvoteCryptoRes);
+    rpc DownvoteCrypto(DownvoteCryptoReq) returns (DownvoteCryptoRes);
+    rpc DeleteCrypto(DeleteCryptoReq) returns (DeleteCryptoRes);
+    rpc ListCryptos(ListCryptosReq) returns (stream ListCryptosRes);
+
+}
+
+message Crypto {
+    string id = 1;
+    string name = 2;
+    int64 upvotes= 3;
+    int64 downvotes= 4;
+    int64 score= 5;
+}
+
+
+message CreateCryptoRes {
+    Crypto crypto = 1;
+}
+
+message UpvoteCryptoReq {
+    string id = 1; 
+}
+
+message UpvoteCryptoRes {
+    bool success = 1;
+}
+
+message DownvoteCryptoReq {
+    string id = 1; 
+}
+
+message DownvoteCryptoRes {
+    bool success = 1;
+}
+
+message GetCryptoReq {
+    string id = 1;
+}
+
+message GetCryptoRes {
+    Crypto crypto = 1; 
+}
+
+message DeleteCryptoReq {
+    string id = 1;
+}
+
+message DeleteCryptoRes {
+    bool success = 1;
+}
+
+message ListCryptosReq {}
+
+message ListCryptosRes {
+    Crypto crypto = 1;
+}

@@ -1,0 +1,25 @@
+FROM golang:alpine as build-env
+
+ENV GO111MODULE=auto
+
+RUN apk update && apk add bash ca-certificates git gcc g++ libc-dev
+
+RUN mkdir /crypto-vote-client
+RUN mkdir -p /crypto-vote-client/proto 
+
+WORKDIR /crypto-vote-client
+
+COPY ./proto/voting.pb.go /crypto-vote-client/proto
+COPY ./client/main.go /crypto-vote-client
+COPY ./database /crypto-vote-client/database
+COPY ./services /crypto-vote-client/services
+COPY ./models /crypto-vote-client/models
+
+COPY go.mod .
+COPY go.sum .
+
+RUN go mod download
+
+RUN go build -o crypto-vote-client .
+
+CMD ./crypto-vote-client
